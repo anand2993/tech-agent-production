@@ -123,8 +123,7 @@ gcloud iam workload-identity-pools providers create-oidc github-provider \
   --display-name="GitHub OIDC" \
   --issuer-uri="https://token.actions.githubusercontent.com" \
   --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository" \
-  --attribute-condition="attribute.repository=='anand2993/tech-agent-production'"
-
+  --attribute-condition="attribute.repository=='********
 # Get the full provider name
 PROVIDER=$(gcloud iam workload-identity-pools providers describe github-provider \
   --location=global \
@@ -137,7 +136,7 @@ PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNum
 gcloud iam service-accounts add-iam-policy-binding \
   ${GCP_SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com \
   --role="roles/iam.workloadIdentityUser" \
-  --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-pool/attribute.repository/anand2993/tech-agent-production"
+  --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-pool/attribute.repository/repo name/"
 
 echo "Workload Identity Provider: ${PROVIDER}"
 echo "Service Account: ${GCP_SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
