@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 ENV PORT=8080
-CMD ["sh", "-c", "adk api_server --host 0.0.0.0 --port ${PORT} tech_agent"]
+CMD ["sh", "-c", "adk web --host 0.0.0.0 --port ${PORT} tech_agent"]
