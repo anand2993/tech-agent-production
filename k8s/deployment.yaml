@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-agent
+  namespace: default
+  labels:
+    app: tech-agent
+    version: "1.0"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tech-agent
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: tech-agent
+    spec:
+      serviceAccountName: tech-agent-ksa
+      containers:
+        - name: tech-agent
+          image: REGION-docker.pkg.dev/PROJECT_ID/tech-agent/tech-agent:IMAGE_TAG
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MODEL
+              value: "gemini-flash-latest"
+            - name: PYTHONPATH
+              value: "/app"
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tech-agent-secrets
+                  key: GOOGLE_API_KEY
+            - name: BRAVE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tech-agent-secrets
+                  key: BRAVE_API_KEY
+                  optional: true
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+      terminationGracePeriodSeconds: 30

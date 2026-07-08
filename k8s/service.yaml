@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-agent
+  namespace: default
+  labels:
+    app: tech-agent
+spec:
+  type: ClusterIP
+  selector:
+    app: tech-agent
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
