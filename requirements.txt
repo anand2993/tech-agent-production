@@ -1,0 +1,11 @@
+google-adk
+google-generativeai
+mcp
+python-dotenv
+fastapi
+uvicorn
+httpx
+pydantic
+pytrends
+pytest
+ruff
