@@ -25,7 +25,7 @@ jobs:
           cat > .env <<EOF
           GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}
           BRAVE_API_KEY=${{ secrets.BRAVE_API_KEY }}
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN_AGENT }}
+          GITHUB_TOKEN=${{ secrets.TOKEN }}
           DEFAULT_MODEL=${{ env.DEFAULT_MODEL }}
           EOF
 
